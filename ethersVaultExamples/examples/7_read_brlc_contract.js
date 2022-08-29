@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { ethers } = require("ethers");
-const  BRLC_ABI  = require("./BRLC_ABI.json");
+const BRLC_ABI = require("./BRLC_ABI.json");
 const { PRIVATE_KEY } = process.env;
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.mainnet.cloudwalk.io/')
@@ -13,13 +13,11 @@ const contract = new ethers.Contract(address, BRLC_ABI, provider)
 
 const main = async () => {
 
-   const coinName =  await contract.decimals()
-   
-    // const deposit = await wallet.sendTransaction({
-    //     to: address,
-    //     value: ethers.utils.parseETHER
-    // })
+   const coinName = await contract.name()
+   const coinDecimals = await contract.decimals()
+
    console.log(coinName)
+   console.log(coinDecimals)
 
 }
 

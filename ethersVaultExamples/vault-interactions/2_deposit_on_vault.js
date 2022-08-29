@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { ethers } = require("ethers");
-const  VAULT_ABI  = require("./VAULT_ABI.json");
+const VAULT_ABI = require("./VAULT_ABI.json");
 const BRLC_ABI = require("./BRLC_ABI.json")
 const { PRIVATE_KEY, MY_WALLET } = process.env;
 
@@ -13,17 +13,17 @@ const brlcTestAddress = '0xC6d1eFd908ef6B69dA0749600F553923C465c812' //BRLC Test
 const LPaddress = '0x37295fcbb3867fd98C292Df1634736B2FEEEDe3D' //VAULT Address
 
 const signer = new ethers.Wallet(
-    PRIVATE_KEY,
-    provider
-  );
+  PRIVATE_KEY,
+  provider
+);
 
 const LPcontract = new ethers.Contract(LPaddress, VAULT_ABI, signer)
 const BRLCcontract = new ethers.Contract(brlcTestAddress, BRLC_ABI, signer)
 
 const mainDeposit = async () => {
 
-  //  Approves the transaction by allowing the BRLC contract to transfer a maximum number of tokens from your wallet to the vault, altough we dont have a gas limit, the deposit function needs it as a param, or it wont work. After the deposit have been made, it the returns the amount of shares the owner now have. The balanceOf can and every method that returns the information can be broken into smaller functions so we can show the information to the user, the wallet information can be brought locally on every pc through the Metamask API.
-  
+  //  Approves the transaction by allowing the BRLC contract to transfer a maximum number of tokens from your wallet to the vault, making you a shareholder of the vault. Altough we dont have a gas limit, the deposit function needs it as a param, or it wont work. After the deposit has been made, it returns the amount of shares the owner now have. The balanceOf and every method that returns the information can be broken into smaller functions so we can show the information to the user, the wallet information can be brought locally on every pc through the Metamask API.
+
   const approveTransaction = await BRLCcontract.approve(LPaddress, 100000)
   console.log("Contract is approved, the object is: " + approveTransaction);
   const options = { gasLimit: 3e5 };
@@ -31,7 +31,7 @@ const mainDeposit = async () => {
   const walletBalance = await LPcontract.balanceOf(MY_WALLET)
   console.log("You have succesfully deposited, the object is: " + deposit)
   console.log("Your own a total of: " + walletBalance + " of the vault's shares.")
-  
+
 
 }
 
