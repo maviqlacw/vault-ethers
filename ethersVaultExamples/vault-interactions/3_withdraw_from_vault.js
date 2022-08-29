@@ -2,8 +2,7 @@ require('dotenv').config();
 const { ethers } = require("ethers");
 const  VAULT_ABI  = require("./VAULT_ABI.json");
 const BRLC_ABI = require("./BRLC_ABI.json")
-const { PRIVATE_KEY, SELF_WALLET_ADDRESS } = process.env;
-
+const { PRIVATE_KEY, MY_WALLET } = process.env;
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.testnet.cloudwalk.io/') //Testnet RPC
 
@@ -19,19 +18,17 @@ const signer = new ethers.Wallet(
 const LPcontract = new ethers.Contract(LPaddress, VAULT_ABI, signer)
 const BRLCcontract = new ethers.Contract(brlcTestAddress, BRLC_ABI, signer)
 
-const mainReadingVault = async () => {
+const mainWithdraw = async () => {
 
-  const vaultAsset = await LPcontract.asset()
-  const totalAssets = await LPcontract.totalAssets()
-  const totalSupply =  await LPcontract.totalSupply()
+  //Shows how much of the vault's shares you can withdraw based on previously deposited assets. This function can be broken into smaller functions so we can show the information to the user.
+  const maxWithdrawPreview = await LPcontract.maxWithdraw(MY_WALLET)
+  console.log("You can currently withdraw a total of " + parseInt(maxWithdrawPreview._hex, 16))
 
-   console.log("The vault is based on testnet BRLC, the current address is: " + vaultAsset)
-   console.log("There is a total of: " + parseInt(totalAssets._hex, 16) + " underlying assets stored in the vault.")
-   console.log("There is a total of: " + parseInt(totalSupply._hex, 16) + " unredeemed vault shares in circulation.")
+  // Withdraw the amount of shares equal to the first param and turn into assets. 
+  const withdraw = await LPcontract.withdraw(010000, MY_WALLET, MY_WALLET)
  
-
 }
 
-mainReadingVault()
+mainWithdraw()
 
 

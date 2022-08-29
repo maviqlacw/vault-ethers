@@ -2,7 +2,8 @@ require('dotenv').config();
 const { ethers } = require("ethers");
 const  VAULT_ABI  = require("./VAULT_ABI.json");
 const BRLC_ABI = require("./BRLC_ABI.json")
-const { PRIVATE_KEY, SELF_WALLET_ADDRESS } = process.env;
+const { PRIVATE_KEY, MY_WALLET } = process.env;
+
 
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.testnet.cloudwalk.io/') //Testnet RPC
@@ -21,23 +22,16 @@ const BRLCcontract = new ethers.Contract(brlcTestAddress, BRLC_ABI, signer)
 
 const mainDeposit = async () => {
 
-  //  
-  //const ownerShares = await contract.balanceOf(signer)
-  //console.log(await contract.allowance(SELF_WALLET_ADDRESS, LPaddress));
-  //const balance = await contract.allowance(SELF_WALLET_ADDRESS, LPaddress);
-  //console.log(parseInt(balance._hex, 16));
+  //  Approves the transaction by allowing the BRLC contract to transfer a maximum number of tokens from your wallet to the vault, altough we dont have a gas limit, the deposit function needs it as a param, or it wont work. After the deposit have been made, it the returns the amount of shares the owner now have. The balanceOf can and every method that returns the information can be broken into smaller functions so we can show the information to the user, the wallet information can be brought locally on every pc through the Metamask API.
+  
   const approveTransaction = await BRLCcontract.approve(LPaddress, 100000)
   console.log("Contract is approved, the object is: " + approveTransaction);
   const options = { gasLimit: 3e5 };
-  const deposit = await LPcontract.deposit(010000, SELF_WALLET_ADDRESS, options)
-  const walletBalance = await LPcontract.balanceOf(SELF_WALLET_ADDRESS)
+  const deposit = await LPcontract.deposit(010000, MY_WALLET, options)
+  const walletBalance = await LPcontract.balanceOf(MY_WALLET)
   console.log("You have succesfully deposited, the object is: " + deposit)
   console.log("Your own a total of: " + walletBalance + " of the vault's shares.")
   
-
-   //console.log("The address of the vault asset is: " + asset)
-   //console.log("The referenced owner has a total of: " + ownerShares + " shares")
- 
 
 }
 
