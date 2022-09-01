@@ -5,7 +5,7 @@ const { PRIVATE_KEY } = process.env;
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.mainnet.cloudwalk.io/')
 
-const address = '0xd898e193a8a2138b4be66e5bd8772bb352c8fd23' //BRLC Address
+const address = '0xA9a55a81a4C085EC0C31585Aed4cFB09D78dfD53' //BRLC Address
 
 //const wallet = new ethers.Wallet(PRIVATE_KEY, provider)
 
