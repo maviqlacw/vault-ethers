@@ -1,3 +1,7 @@
+# Interacting with an ERC4626 Deployed Vault on CW's Mainnet
+The contracts have been deployed via remix, the next step is deploying it through hardhat.
+The vault can be read and interacted with calling the files name through node file_name on the console.
+
 # Ethers.js by Example
 Learn how to use ethers.js from these examples
 
